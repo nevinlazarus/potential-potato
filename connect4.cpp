@@ -23,7 +23,7 @@ bool Game::makeMove(int x) {
             board[x][i] = player;
             turn++;
             lastMove = std::make_pair(x, i);
-            checkForWinner();
+            if (turn >= 7) checkForWinner();
             return true;
         }
     }
@@ -148,22 +148,18 @@ int main() {
     int move;
     while (!g.ended()) {
         if (turn % 2) {
-            move = monty2.getBestMove(g);       
+            std::cout << "Please make a move: ";
+            bool moved = false;
+            while (!moved) {
+                std::cin >> move;
+                moved = g.makeMove(move);
+            }
         } else {
             move = monty.getBestMove(g);       
+            g.makeMove(move);
         }
-        g.makeMove(move);
         ++turn;
-        g.printBoard();
-//        int move;
-/*        std::cout << "Please make a move: ";
-        bool moved = false;
-        while (!moved) {
-            std::cin >> move;
-            moved = g.makeMove(move);    
-        }*/
-
-        
+        g.printBoard();        
     }
 
     std::cout << "Player " << g.result() << " Wins" << std::endl;

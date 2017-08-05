@@ -38,17 +38,9 @@ std::vector<double> Monty::runThread(Game g) {
             }                                           
             if (firstMove == -1) {
                 firstMove = move;
-            }             
-        }
-/*        if ((i * 5) % trials == trials - 1) {
-            int worst = -1;
-            for (int j = 0; j < 7; ++j) {
-                if (!badMoves[j] && (worst = -1 || (result[j] / count[j]) > (result[worst] / count[j]))) {
-                    worst = j;                    
-                }
             }
-            badMoves[worst] = true;
-        }*/
+        }
+
         //I WON
         count[firstMove]++;
         if (copy.result() == whoAmI) {
