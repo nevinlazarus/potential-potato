@@ -1,3 +1,5 @@
+#ifndef MONTY
+#define MONTY
 #include <iostream>
 #include <vector>
 #include <time.h>       /* time */
@@ -16,3 +18,5 @@ class Monty {
 };
 
 int getBestMove(std::string moves, int width, int height, int numTrials);
+
+#endif

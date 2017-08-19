@@ -136,7 +136,7 @@ int Game::getTurn() {
 
 int Game::getWhoseTurn() {
     return (turn % 2) + 1;
-}    
+}
 
 
 int main() {
@@ -154,7 +154,7 @@ int main() {
                 moved = g.makeMove(move);
             }
         } else {
-            move = getBestMove(moveList, 7, 6, 50000);       
+            //move = getBestMove(moveList, 7, 6, 50000);       
             g.makeMove(move);
         }
         moveList += std::to_string(move);
