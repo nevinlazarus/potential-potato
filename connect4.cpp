@@ -142,10 +142,9 @@ int Game::getWhoseTurn() {
 int main() {
 
     Game g = Game(7, 6);
-    Monty monty(1000);
-    Monty monty2(1000);
     int turn = 0;    
     int move;
+    std::string moveList = "";
     while (!g.ended()) {
         if (turn % 2) {
             std::cout << "Please make a move: ";
@@ -155,14 +154,17 @@ int main() {
                 moved = g.makeMove(move);
             }
         } else {
-            move = monty.getBestMove(g);       
+            move = getBestMove(moveList, 7, 6, 50000);       
             g.makeMove(move);
         }
+        moveList += std::to_string(move);
         ++turn;
         g.printBoard();        
     }
-
-    std::cout << "Player " << g.result() << " Wins" << std::endl;
+    if (g.result())
+        std::cout << "Player " << g.result() << " Wins" << std::endl;
+    else
+        std::cout << "Draw" << std::endl;
 
 
 }

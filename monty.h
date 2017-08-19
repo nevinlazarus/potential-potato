@@ -14,3 +14,5 @@ class Monty {
     int trials;   
 
 };
+
+int getBestMove(std::string moves, int width, int height, int numTrials);

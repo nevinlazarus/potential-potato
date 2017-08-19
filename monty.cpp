@@ -10,9 +10,9 @@
 
 
 
-Monty::Monty(int numtrials) {
+Monty::Monty(int numTrials) {
     srand (time(NULL));
-    trials = numtrials;
+    trials = numTrials;
 }
 
 std::vector<double> Monty::runThread(Game g) {
@@ -68,15 +68,24 @@ std::vector<double> Monty::runThread(Game g) {
 
 }
 
+int getBestMove(std::string moves, int width, int height, int numTrials) {
+    Game g = Game(width, height);
+    for (auto c : moves)
+    {
+        g.makeMove(c - '0');
+    }
+    Monty monty(numTrials);
+    return monty.getBestMove(g);
+}
+
 int Monty::getBestMove(Game g) {
 
-
-    
     int numThreads = std::thread::hardware_concurrency();
     
     std::vector<std::thread> threads;
     std::vector<std::vector<double> > results(numThreads, std::vector<double>(7));
-
+    std::cout << numThreads << " Threads" << std::endl;
+    std::cout << numThreads * trials << " Trials" << std::endl;
     for (int i = 0; i < numThreads; ++i) {
         std::thread t ([g, &results, i, this]{            
             results[i] = Monty::runThread(g);
