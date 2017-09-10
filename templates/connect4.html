@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <title></title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='connect4.css') }}">
+  <style>
+  </style>
+</head>
+<body>
+
+  <h1>Connect 4</h1>
+    <div class="container">
+    {% for i in range(height - 1, -1, -1) %}
+        
+      <div class="row">
+      {% for j in range(width) %}
+        {% if board[j][i] == 2 %}
+          <div class="my-col-5 cell even"></div>
+        {% elif board[j][i] == 1 %}
+          <div class="my-col-5 cell odd"></div>
+        {% else %}
+          <div class="my-col-5 cell"></div>
+        {% endif %}
+          
+      {% endfor %}
+      </div>
+    {% endfor %}
+
+        <form action = "/makeMove" method = "post">
+            <input type="hidden" name="mode" value="{{mode}}"></input>
+            <input type="hidden" name="gameState" value="{{gameState}}"></input>
+            <div class="row">
+                {% for i in range(width) %}
+                    <div class="my-col-5">
+                        <input type="submit" name="move" value="{{i}}"></input>
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+        
+        <form action = "/" method = "get">
+            <input type="submit" name="mode" value="ai"></input>
+        </form>
+        <form action = "/" method = "get">
+            <input type="submit" name="mode" value="player"></input>
+        </form>
+        
+        <label>{{message}}</label>
+        
+    </div>
+</body>
+</html>

@@ -1,4 +1,6 @@
 import connect4_ai
+import os
+from flask import Flask, render_template, request, url_for
 
 class connect4:
     
@@ -93,8 +95,8 @@ class connect4:
 
     def printBoard(self):
         for i in range(self.height - 1, -1, -1):
-            for j in range(0, self.height):
-                print(str(self.board[j][i]), end='', flush=True),
+            for j in range(0, self.width):
+                print(str(self.board[j][i]) + "|", end='', flush=True),
             print("")
 
     def result(self):
@@ -109,9 +111,12 @@ class connect4:
     def getWhoseTurn(self):
         return (self.turn % 2) + 1;
 
+app = Flask(__name__)
+game = connect4(7, 6)
+
 def main():
     a = connect4_ai
-    game = connect4(7, 6)
+    
     move = 0
     moveList = ""
     while (not game.ended()):
@@ -133,5 +138,56 @@ def main():
     else:
         print("Draw")
 
+@app.route('/')
+def form():
+    g = connect4(7, 6)
+    mode = None
+    if ('mode' in request.form):
+        mode = str(request.form['mode'])
+    if (mode is None):
+        mode = "ai"
+    return render_template('connect4.html', board=g.board, width=g.width, height=g.height, mode=mode)
+    
+@app.route('/makeMove', methods=['GET', 'POST'])
+def move():
+    gameState = str(request.form['gameState'])
+    move = str(request.form['move'])
+    mode = str(request.form['mode'])
+    
+    
+    
+    g = connect4(7, 6)
+    for m in gameState:
+        g.makeMove(int(m))
+    moved = g.makeMove(int(move))
+    
+    msg = ""
+    print(mode)
+    if g.ended():
+        if not g.result() == 0:
+            msg = "Player " + str(g.result()) + " Wins"
+        else:
+            msg = "Draw"
+    
+    elif mode == "ai":
+        a = connect4_ai
+        gameState += move
+        move = a.get_best_move(gameState, 7, 6, 50000)
+        g.makeMove(int(move))
+        
+        if g.ended():
+            if not g.result() == 0:
+                msg = "Player " + str(g.result()) + " Wins"
+            else:
+                msg = "Draw"
+    
+        
+    
+    return render_template('connect4.html', board=g.board, width=g.width, height=g.height, 
+        gameState=str(gameState+str(move)), moved=moved, message=msg, mode=mode)
+    
+
 if __name__ == "__main__":
-    main();
+    app.run(host="0.0.0.0",
+        port=int("8080"))
+    #main();

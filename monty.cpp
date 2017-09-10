@@ -44,7 +44,7 @@ std::vector<double> Monty::runThread(Game g) {
         //I WON
         count[firstMove]++;
         if (copy.result() == whoAmI) {
-            result[firstMove] += 10000.0/log2(turns + 10);
+            result[firstMove] += 10000.0/turns;
 
         } else if (copy.result() == 0) {
             //DRAW
