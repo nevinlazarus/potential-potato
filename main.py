@@ -1,3 +1,4 @@
+#!usr/bin/python3.5
 import connect4_ai
 import os
 from flask import Flask, render_template, request, url_for
