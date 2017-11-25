@@ -1,9 +1,13 @@
 #ifndef GAME
 #define GAME
 
+#include <string>
+
 class Game {
     public:
     Game(int width, int height);
+
+    Game(int width, int height, std::string gameState);
     
     bool makeMove(int x);
     
@@ -18,6 +22,13 @@ class Game {
     int getTurn();
     
     int getWhoseTurn();
+
+    int width() { return WIDTH; }
+
+    int height() { return HEIGHT; }
+    
+    const std::vector<std::vector<int> > &getBoard() { return board; }
+    
     
     private:
     

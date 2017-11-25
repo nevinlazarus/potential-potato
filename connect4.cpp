@@ -11,6 +11,15 @@ Game::Game(int width, int height) {
     turn = 0;
 }
 
+Game::Game(int width, int height, std::string gameState) {
+    board = std::vector<std::vector<int> >(width, std::vector<int>(height, 0));
+    WIDTH = width;
+    HEIGHT = height;
+    turn = 0;
+    for (auto c : gameState)
+        makeMove(c - '0');
+}
+
 bool Game::makeMove(int x) {
 
     if (x < 0 || x >= WIDTH) return false;

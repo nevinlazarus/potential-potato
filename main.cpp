@@ -3,11 +3,12 @@
 #include <Python.h>
 #include <string.h>
 #include "monty.h"
+#include "alphabeta.h"
 #include "connect4.h"
 
 static PyObject * getBestMovePython(PyObject *self, PyObject *args) {
-    char * moves; int width, height, numTrials;
-    if (!PyArg_Parse(args, "(siii)", &moves, &width, &height, &numTrials)) /* convert Python -> C */
+    char * moves; int width, height, numTrials, type;
+    if (!PyArg_Parse(args, "(siiii)", &moves, &width, &height, &numTrials, &type)) /* convert Python -> C */
         return NULL;                            /* null=raise exception */
     std::string str = std::string(moves);
     Game g = Game(width, height);
@@ -16,8 +17,13 @@ static PyObject * getBestMovePython(PyObject *self, PyObject *args) {
         g.makeMove(c - '0');
     }
     
-    Monty monty(numTrials);
-    return Py_BuildValue("i", monty.getBestMove(g));
+    if (type == 0) {
+        Monty ai(numTrials);
+        return Py_BuildValue("i", ai.getBestMove(g));
+    }
+    AlphaBeta ai(numTrials);
+    return Py_BuildValue("i", ai.getBestMove(g));
+
 }
 
 /* registration table */

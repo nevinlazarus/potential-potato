@@ -128,7 +128,7 @@ def main():
                 move = int(input("Please make a move: ")) 
                 moved = game.makeMove(move)
         else:
-            move = a.get_best_move(moveList, 7, 6, 1000)
+            move = a.get_best_move(moveList, 7, 6, 1000, 1)
             game.makeMove(move);
 
         moveList += str(move);        
@@ -173,7 +173,7 @@ def move():
     elif mode == "ai":
         a = connect4_ai
         gameState += move
-        move = a.get_best_move(gameState, 7, 6, 50000)
+        move = a.get_best_move(gameState, 7, 6, 50000, 1)
         g.makeMove(int(move))
         
         if g.ended():
